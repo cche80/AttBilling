@@ -25,8 +25,8 @@ print('Account Size:\t{}\n'.format(accountSize))
 
 # Open HTML files and parse them
 # with open(r'/home/chen/AttBilling/Jan20-Feb19/AT&T.html', "r") as f:
-with open(r'/home/chen/AttBilling/Jun20-Jul19/AT&T.html', "r") as f:
-# with open(r'/home/chen/AttBilling/Jul20-Aug19/AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/Jun20-Jul19/AT&T.html', "r") as f:
+with open(r'/home/chen/AttBilling/Jul20-Aug19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Aug20-Sept19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Sept20-Oct19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Oct20-Nov19/Billing & Usage - AT&T.html', "r") as f:
@@ -38,8 +38,8 @@ cycleDateInfo = tree.xpath('//h3//text()')
 # print(info)
 
 # with open(r'/home/chen/AttBilling/Jan20-Feb19/data/Billing & Usage - AT&T.html', "r") as f:
-with open(r'/home/chen/AttBilling/Jun20-Jul19/data/Billing & Usage - AT&T.html', "r") as f:
-# with open(r'/home/chen/AttBilling/Jul20-Aug19/data/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/Jun20-Jul19/data/Billing & Usage - AT&T.html', "r") as f:
+with open(r'/home/chen/AttBilling/Jul20-Aug19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Aug20-Sept19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Sept20-Oct19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Oct20-Nov19/data/Billing & Usage - AT&T.html', "r") as f:
@@ -49,6 +49,8 @@ numInfo = tree.xpath('//td[@headers="member_head"]//span//text()')
 # print(numInfo)
 dataInfo = tree.xpath('//a[@title="Web Usage"]//text()')
 # print(dataInfo)
+cycleDateInfoFromData = [i.strip() for i in tree.xpath('//div[@id="timeRange"]//text()')]
+# print(cycleDateInfoFromData)
 
 # \t\n\r trimming for unicode results
 # The following are for string representation(unencoded)
@@ -77,11 +79,14 @@ cycleDateInfo = [i.strip() for i in cycleDateInfo]
 numInfo = [i.strip() for i in numInfo]
 dataInfo = [i.strip() for i in dataInfo]
 
-# Get date for this cycle
+# Get date for this cycle from Info Sheet
 cycleDate = ''
 for i in cycleDateInfo:
     if i[:15] == 'New charges for':
         cycleDate = i[16:]
+
+# Get date for this cycle from Data Sheet
+cycleDateFromData = cycleDateInfoFromData[0]
 
 # Get Total Data Used and Individual Data Usage
 numInfo = [i.replace('.', '') for i in numInfo]
@@ -347,6 +352,13 @@ sanitySum = round(sum([i.total_charge for i in numberList]), 2)
 print('***************************')
 print('{} needs to be collected and {} will be collected'.format(amountCollecting, sanitySum))
 if sanitySum == amountCollecting:
-    print('Sanity Check Passed! :)')
+    print('Charge Sanity Check Passed! :)')
 else:
-    print('Sanity Check Failed!!! :(')
+    print('Charge Sanity Check Failed!!! :(')
+print('\n***************************')
+print('Info Sheet shows the cycle: {}\nand Data Sheet shows: {}'.format(cycleDate, cycleDateFromData))
+if cycleDate[:cycleDate.find('-') - 1] == cycleDateFromData[:cycleDateFromData.find(',')]\
+        and cycleDate[cycleDate.find('-'):] == cycleDateFromData[cycleDateFromData.find('-'):]:
+    print('Date Sanity Check Passed! :)')
+else:
+    print('Date Sanity Check Failed!!! :(')
