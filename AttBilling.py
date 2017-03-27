@@ -18,18 +18,21 @@ if len(sys.argv) == 2:
             numberNames[i[:i.find(':')]] = i[i.find(':') + 1:]
         # print(numberNames)
 else:
-    print('The number of Arguments in WRONG!')
+    print('The number of Arguments is WRONG!')
     sys.exit(0)
 # Python3 placeholder: {}, use format() to fill
 print('Account Size:\t{}\n'.format(accountSize))
 
 # Open HTML files and parse them
-# with open(r'/home/chen/AttBilling/Jan20-Feb19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Jun20-Jul19/AT&T.html', "r") as f:
-with open(r'/home/chen/AttBilling/Jul20-Aug19/AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/Jul20-Aug19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Aug20-Sept19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Sept20-Oct19/AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Oct20-Nov19/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/Nov20-Dec19/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/2017/Dec20-Jan19/AT&T.html', "r") as f:
+with open(r'/home/chen/AttBilling/2017/Jan20-Feb19/AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/2017/Feb20-Mar19/Billing & Usage - AT&T.html', "r") as f:
     page = f.read()
 tree = html.fromstring(page)
 info = tree.xpath('//div[contains(@class, "accSummary")]//div[contains(@class, "accRow")]//text()')
@@ -37,12 +40,15 @@ cycleDateInfo = tree.xpath('//h3//text()')
 # print(cycleDate)
 # print(info)
 
-# with open(r'/home/chen/AttBilling/Jan20-Feb19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Jun20-Jul19/data/Billing & Usage - AT&T.html', "r") as f:
-with open(r'/home/chen/AttBilling/Jul20-Aug19/data/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/Jul20-Aug19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Aug20-Sept19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Sept20-Oct19/data/Billing & Usage - AT&T.html', "r") as f:
 # with open(r'/home/chen/AttBilling/Oct20-Nov19/data/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/Nov20-Dec19/data/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/2017/Dec20-Jan19/data/Billing & Usage - AT&T.html', "r") as f:
+with open(r'/home/chen/AttBilling/2017/Jan20-Feb19/data/Billing & Usage - AT&T.html', "r") as f:
+# with open(r'/home/chen/AttBilling/2017/Feb20-Mar19/data/Billing & Usage - AT&T.html', "r") as f:
     page = f.read()
 tree = html.fromstring(page)
 numInfo = tree.xpath('//td[@headers="member_head"]//span//text()')
